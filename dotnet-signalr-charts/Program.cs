@@ -1,7 +1,20 @@
+using dotnet_signalr_charts.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddSingleton(_ =>
+{
+    var buffer = new Buffer<Point>(10);
+    for (int i = 0; i < 7; i++)
+    {
+        buffer.AddNewRandomPoint();
+    }
+
+    return buffer;
+});
 
 var app = builder.Build();
 
