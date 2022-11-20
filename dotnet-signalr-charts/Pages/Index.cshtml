@@ -1,10 +1,40 @@
 ﻿@page
+@using dotnet_signalr_charts.Services;
 @model IndexModel
+
+@inject Buffer<Point> Buffer
+
 @{
     ViewData["Title"] = "Home page";
+    var labels = Buffer.Select(b => b.Label);
+    var data = Buffer.Select(b => b.Value);
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Chart with SignalR and Chart.js</h1>
+    <canvas id="myChart" width="400" height="400"></canvas>
 </div>
+
+<script id="data" type="application/json">
+    @Json.Serialize(
+        new 
+        {
+            labels,
+            limit = Buffer.MaxCapacity.GetValueOrDefault(10),
+            url = "/chart",
+            datasets = new object[] {
+                new {
+                    label = "SignalR Dataset",
+                    data,
+                    fill = false,
+                    borderColor = "rgb(75, 192, 192)",
+                    tension = 0.1
+                }
+            }
+        }
+    )
+</script>
+
+<script src="~/lib/microsoft-signalr/signalr.min.js"></script>
+<script src="~/lib/chartjs/chart.min.js"></script>
+<script defer src="~/js/index.js"></script>
