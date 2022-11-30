@@ -17,6 +17,16 @@ builder.Services.AddSingleton(_ =>
     return buffer;
 });
 
+builder.Services.AddSingleton(_ =>
+{
+    var buffer = new Buffer<Stack>(10);
+    for (int i = 0; i < 7; i++)
+    {
+        buffer.AddRandomTeamSupporters();
+    }
+    return buffer;
+});
+
 builder.Services.AddSignalR();
 
 builder.Services.AddHostedService<ChartValueGenerator>();
