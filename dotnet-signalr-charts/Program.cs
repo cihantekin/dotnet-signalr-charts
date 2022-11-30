@@ -41,6 +41,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 app.MapHub<ChartHub>(ChartHub.Url);
+app.MapHub<StackedBarChartHub>(StackedBarChartHub.Url);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
