@@ -1,4 +1,6 @@
-﻿namespace dotnet_signalr_charts.Services
+﻿using System.Drawing;
+
+namespace dotnet_signalr_charts.Services
 {
     public class Buffer<T> : Queue<T>
     {
@@ -18,4 +20,11 @@
     }
 
     public record Point(string Label, int Value);
+    public record Stack(string Label, List<TeamSupporters> TeamSupporters);
+    public class TeamSupporters
+    {
+        public string TeamName { get; set; }
+        public int Count { get; set; }
+        public string Color { get; set; }
+    }
 }
