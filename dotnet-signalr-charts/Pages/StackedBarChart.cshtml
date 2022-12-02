@@ -1,4 +1,29 @@
 ﻿@page
+@using dotnet_signalr_charts.Services;
 @model dotnet_signalr_charts.Pages.StackedBarChartModel
+@inject Buffer<Stack> Buffer
+
 @{
+    ViewData["Title"] = "Stacked Bar Chart";
+    var labels = Buffer.Select(b => b.Label);
+    var data = Buffer.SelectMany(b => b.TeamSupporters);
 }
+
+<div class="text-center">
+    <h1 class="display-4">Chart with SignalR and Chart.js</h1>
+    <canvas id="myChart" width="300" height="300"></canvas>
+</div>
+
+<script id="data" type="application/json">
+    @Json.Serialize(
+        new
+        {
+            labels,
+            datasets = data
+        }
+    )
+</script>
+
+<script src="~/lib/microsoft-signalr/signalr.min.js"></script>
+<script src="~/lib/chartjs/chart.min.js"></script>
+<script defer src="~/js/stackedbarchart.js"></script>
