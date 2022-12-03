@@ -22,23 +22,23 @@
     @Json.Serialize(
         new  {
             labels= labels,
-            datasets= [
+            datasets= new object[] {
                 new {
-                    label= teams[0].TeamName,
+                    label= teams?[0].TeamName,
                     data= firstTeamData,
-                    backgroundColor= teams[0].Color
+                    backgroundColor= teams?[0].Color
                 },
                 new {
-                    label= teams[1].TeamName,
+                    label= teams?[1].TeamName,
                     data= secondTeamData,
-                    backgroundColor= teams[1].Color
+                    backgroundColor= teams?[1].Color
                 },
                 new {
-                    label= teams[2].TeamName,
+                    label= teams?[2].TeamName,
                     data= thirdTeamData,
-                    backgroundColor= teams[2].Color
+                    backgroundColor= teams?[2].Color
                 }
-            ]
+            }
         }
     )
 
