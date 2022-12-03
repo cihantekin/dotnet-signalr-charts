@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "/StackedBar"
 @using dotnet_signalr_charts.Services;
 @model dotnet_signalr_charts.Pages.StackedBarChartModel
 @inject Buffer<Stack> Buffer
@@ -6,7 +6,11 @@
 @{
     ViewData["Title"] = "Stacked Bar Chart";
     var labels = Buffer.Select(b => b.Label);
-    var data = Buffer.SelectMany(b => b.TeamSupporters);
+    var teams = Buffer.FirstOrDefault()?.TeamSupporters;
+
+    var firstTeamData = Buffer.SelectMany(b => b.TeamSupporters).Where(x => x.TeamName == teams[0].TeamName).Select(s => s.Count);
+    var secondTeamData = Buffer.SelectMany(b => b.TeamSupporters).Where(x => x.TeamName == teams[1].TeamName).Select(s => s.Count);
+    var thirdTeamData = Buffer.SelectMany(b => b.TeamSupporters).Where(x => x.TeamName == teams[2].TeamName).Select(s => s.Count);
 }
 
 <div class="text-center">
@@ -16,12 +20,28 @@
 
 <script id="data" type="application/json">
     @Json.Serialize(
-        new
-        {
-            labels,
-            datasets = data
+        new  {
+            labels= labels,
+            datasets= [
+                new {
+                    label= teams[0].TeamName,
+                    data= firstTeamData,
+                    backgroundColor= teams[0].Color
+                },
+                new {
+                    label= teams[1].TeamName,
+                    data= secondTeamData,
+                    backgroundColor= teams[1].Color
+                },
+                new {
+                    label= teams[2].TeamName,
+                    data= thirdTeamData,
+                    backgroundColor= teams[2].Color
+                }
+            ]
         }
     )
+
 </script>
 
 <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
