@@ -22,3 +22,21 @@ const myChart = new Chart(ctx, {
         }
     }
 });
+
+const connection = new signalR.HubConnectionBuilder().withUrl("/stackedBarChart").configureLogging(signalR.LogLevel.Information).build();
+
+async function start() {
+    try {
+        await connection.start();
+        console.log('SignalR Connection successful');
+    } catch (e) {
+        console.log(e);
+        setTimeout(start, 5000)
+    }
+}
+
+connection.onclose(async () => {
+    await start();
+});
+
+start().then(() => { });
