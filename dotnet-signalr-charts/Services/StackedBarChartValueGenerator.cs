@@ -19,7 +19,7 @@ namespace dotnet_signalr_charts.Services
             while (!stoppingToken.IsCancellationRequested)
             {
                 await _hubContext.Clients.All.SendAsync("addStackedBarChartData", _stacks.AddRandomTeamSupporters(), stoppingToken);
-                await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
             }
         }
     }

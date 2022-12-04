@@ -23,7 +23,7 @@ const myChart = new Chart(ctx, {
     }
 });
 
-const connection = new signalR.HubConnectionBuilder().withUrl("/stackedBarChart").configureLogging(signalR.LogLevel.Information).build();
+const connection = new signalR.HubConnectionBuilder().withUrl("/stackedBarChartHub").configureLogging(signalR.LogLevel.Information).build();
 
 async function start() {
     try {
@@ -37,6 +37,16 @@ async function start() {
 
 connection.onclose(async () => {
     await start();
+});
+
+connection.on("addStackedBarChartData", function (stack) {
+    myChart.data.labels.push(stack.label);
+    myChart.data.datasets.forEach(dataset => {
+        let teamInfo = stack.teamSupporters.filter(x => x.teamName == dataset.label);
+        dataset.data.push(teamInfo[0].count);
+    })
+
+    myChart.update();
 });
 
 start().then(() => { });

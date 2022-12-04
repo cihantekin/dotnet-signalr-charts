@@ -30,6 +30,7 @@ builder.Services.AddSingleton(_ =>
 builder.Services.AddSignalR();
 
 builder.Services.AddHostedService<ChartValueGenerator>();
+builder.Services.AddHostedService<StackedBarChartValueGenerator>();
 
 var app = builder.Build();
 
