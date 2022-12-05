@@ -22,6 +22,7 @@
     @Json.Serialize(
         new  {
             labels= labels,
+            limit = Buffer.MaxCapacity.GetValueOrDefault(10),
             datasets= new object[] {
                 new {
                     label= teams?[0].TeamName,

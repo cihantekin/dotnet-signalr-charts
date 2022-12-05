@@ -47,6 +47,14 @@ connection.on("addStackedBarChartData", function (stack) {
     })
 
     myChart.update();
+
+    if (myChart.data.labels.length > data.limit) {
+        myChart.data.labels.splice(0, 1);
+        myChart.data.datasets.forEach((dataset) => {
+            dataset.data.splice(0, 1);
+        });
+        myChart.update();
+    }
 });
 
 start().then(() => { });
